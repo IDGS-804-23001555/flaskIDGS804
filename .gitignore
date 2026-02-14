@@ -1,0 +1,19 @@
+# Entorno virtual
+.env/
+
+# Node
+node_modules/
+
+# Tailwind compilado
+static/dist/
+
+# Python
+__pycache__/
+*.pyc
+
+# Base de datos
+*.db
+*.sqlite3
+
+# Mac
+.DS_Store
