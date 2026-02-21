@@ -20,9 +20,8 @@
 @import "flowbite/src/themes/playful";
 */
 
-/* MONO THEME
+/* MONO THEME */
 @import "flowbite/src/themes/mono";
-
 
 @plugin "flowbite/plugin";
 
