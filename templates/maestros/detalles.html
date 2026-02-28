@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class="max-w-2xl mx-auto py-10 px-4">
+    <div class="bg-white dark:bg-gray-800 shadow-xl rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+        
+        <div class="bg-indigo-600 px-6 py-4">
+            <h3 class="text-xl leading-6 font-semibold text-white">
+                Ficha Técnica del Maestro
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm text-indigo-100">
+                Información institucional registrada en el sistema.
+            </p>
+        </div>
+
+        <div class="border-t border-gray-200 dark:border-gray-700">
+            {% if maest %}
+            <dl>
+                <div class="bg-gray-50 dark:bg-gray-900 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Matrícula
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2 font-mono">
+                        {{ maest.matricula }}
+                    </dd>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Nombre completo
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                        {{ maest.nombre }} {{ maest.apellidos }}
+                    </dd>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-900 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Correo electrónico
+                    </dt>
+                    <dd class="mt-1 text-sm text-blue-600 dark:text-blue-400 sm:mt-0 sm:col-span-2 underline">
+                        {{ maest.email }}
+                    </dd>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Especialidad
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2 italic">
+                        {{ maest.especialidad }}
+                    </dd>
+                </div>
+            </dl>
+            {% else %}
+            <div class="p-10 text-center text-gray-500">
+                No se encontró la información del maestro solicitado.
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="px-6 py-4 bg-gray-100 dark:bg-gray-900 flex justify-between items-center">
+            <a href="{{ url_for('maestros.index') }}"
+                class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Volver al listado
+            </a>
+            
+            <a href="{{ url_for('maestros.modificar', id=maest.id if maest else 0) }}"
+                class="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all">
+                Editar Datos
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
