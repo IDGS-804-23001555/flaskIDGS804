@@ -1,44 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_wtf.csrf import CSRFProtect
-from config import DevelopmentConfig
-from flask_migrate import Migrate
+from flask import render_template, request, redirect, url_for
+from . import maestros
 import forms
-from models import db, Alumnos, Maestros
-from maestros.routes import maestros
+from models import db, Maestros
 
-app = Flask(__name__)
-app.config.from_object(DevelopmentConfig)
-app.register_blueprint(maestros)
-db.init_app(app)
-migrate = Migrate(app, db)
-csrf = CSRFProtect()
+@maestros.route('/perfil/<nombre>')
+def perfil(nombre):
+    return f"Perfil de {nombre}"
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template("404.html"), 404
-
-@app.route("/", methods=["GET", "POST"])
-@app.route("/index")
+@maestros.route('/maestros', methods=['GET', 'POST'])
+@maestros.route("/index")
 def index():
     create_form = forms.UserForm(request.form)
-    alumnos_list = Alumnos.query.all()
-    return render_template("index.html", form=create_form, alumnos=alumnos_list)
-
-@app.route("/Alumno", methods=['GET', 'POST'])
-def alumnos():
-    create_form = forms.UserForm(request.form)
-    if request.method == 'POST':
-        # Se agregan apellidos y telefono al objeto Alumnos
-        alum = Alumnos(
-            nombre=create_form.nombre.data,
-            apellidos=create_form.apellidos.data,
-            email=create_form.email.data,
-            telefono=create_form.telefono.data
-        )
-        db.session.add(alum)
-        db.session.commit()
-        return redirect(url_for('index'))
-    return render_template("alumnos.html", form=create_form)
+    maestros_list = Maestros.query.all()
+    return render_template("maestros/listadoMaes.html", form=create_form, maestros=maestros_list)
 
 @app.route("/detalles", methods=['GET', 'POST'])
 def detalles():
@@ -108,9 +82,3 @@ def eliminar():
             db.session.commit()
             
         return redirect(url_for('index'))
-
-if __name__ == '__main__':
-    csrf.init_app(app)
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
